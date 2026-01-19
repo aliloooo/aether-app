@@ -9,27 +9,31 @@ const ForecastList = ({ forecast }) => {
 
     return (
         <div className="w-full">
-            <h3 className="text-sm font-medium opacity-50 mb-4 px-2 tracking-wide uppercase">5-Day Forecast</h3>
-            <div className="flex justify-between md:justify-start gap-2 md:gap-4 overflow-x-auto pb-2 hide-scrollbar">
+            <h3 className="text-sm font-medium opacity-50 mb-4 px-1 tracking-wide uppercase">5-Day Forecast</h3>
+
+            {/* Mobile: Horizontal Scroll | Desktop: Grid 5 Columns */}
+            <div className="flex overflow-x-auto pb-4 gap-3 md:gap-4 lg:grid lg:grid-cols-5 lg:overflow-visible hide-scrollbar scroll-smooth">
                 {dailyForecast.map((item, index) => (
                     <motion.div
                         key={item.dt}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="glass-card flex-1 min-w-[80px] p-4 flex flex-col items-center justify-between gap-2 cursor-pointer hover:scale-[1.02] transition-transform"
+                        className="glass-card flex-shrink-0 w-24 md:w-28 lg:w-auto p-4 flex flex-col items-center justify-between gap-3 cursor-pointer hover:bg-white/10 transition-all group"
                     >
-                        <span className="text-sm font-medium opacity-80">
+                        <span className="text-sm font-medium opacity-70 group-hover:opacity-100 transition-opacity">
                             {new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' })}
                         </span>
 
-                        <img
-                            src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
-                            alt="icon"
-                            className="w-10 h-10 opacity-90 grayscale-[30%] hover:grayscale-0 transition-all"
-                        />
+                        <div className="relative w-10 h-10 md:w-12 md:h-12">
+                            <img
+                                src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
+                                alt={item.weather[0].description}
+                                className="w-full h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 filter drop-shadow-sm"
+                            />
+                        </div>
 
-                        <span className="text-xl font-bold">
+                        <span className="text-lg md:text-xl font-bold tracking-tight">
                             {Math.round(item.main.temp)}°
                         </span>
                     </motion.div>
