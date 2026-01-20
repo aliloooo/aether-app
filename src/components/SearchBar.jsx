@@ -1,3 +1,7 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, X, History, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import useWeatherStore from '../store/weatherStore';
 import { fetchCitySuggestions } from '../services/api';
 
 const SearchBar = ({ onSearch }) => {
