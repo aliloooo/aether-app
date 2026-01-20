@@ -5,12 +5,16 @@ const useWeatherStore = create(
     persist(
         (set) => ({
             city: 'Jakarta',
-            coords: null, // { lat, lon }
+            coords: null,
             unit: 'metric',
             themeMode: 'Default',
             favorites: ['Jakarta', 'London', 'Tokyo'],
+            recentSearches: [],
 
-            setCity: (city) => set({ city, coords: null }),
+            setCity: (city) => set((state) => {
+                const newRecent = [city, ...state.recentSearches.filter(c => c !== city)].slice(0, 5);
+                return { city, coords: null, recentSearches: newRecent };
+            }),
             setCoords: (coords) => set({ coords, city: null }),
             setUnit: (unit) => set({ unit }),
             setThemeMode: (mode) => set({ themeMode: mode }),
@@ -22,6 +26,8 @@ const useWeatherStore = create(
             removeFavorite: (city) => set((state) => ({
                 favorites: state.favorites.filter((fav) => fav !== city)
             })),
+
+            clearRecentSearches: () => set({ recentSearches: [] }),
         }),
         {
             name: 'weather-storage',
