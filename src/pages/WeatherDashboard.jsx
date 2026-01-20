@@ -10,7 +10,7 @@ import BottomNav from '../components/BottomNav';
 import useWeatherStore from '../store/weatherStore';
 import { useWeatherQuery } from '../services/queries';
 import { getWeatherTheme } from '../utils/weatherMapping';
-import { MapPin, Search, PlusCircle, Bookmark, Compass } from 'lucide-react';
+import { MapPin, Search, PlusCircle, Bookmark, Compass, AlertCircle, Calendar, TrendingUp } from 'lucide-react';
 
 const WeatherDashboard = () => {
     const [activeTab, setActiveTab] = useState('home');
