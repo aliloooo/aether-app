@@ -1,51 +1,63 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { format } from 'date-fns';
+import { Thermometer, Droplets, Wind } from 'lucide-react';
 import WeatherIcon from './WeatherIcon';
 
 const ForecastList = ({ forecast }) => {
     if (!forecast || !forecast.list) return null;
 
     // Filter for daily forecast (roughly every 24h at noon)
-    const dailyForecast = forecast.list.filter((reading) => reading.dt_txt.includes("12:00:00")).slice(0, 5);
+    const dailyForecast = forecast.list.filter((reading) => reading.dt_txt.includes("12:00:00")).slice(0, 7);
 
     return (
-        <div className="w-full flex overflow-x-auto pb-6 gap-4 hide-scrollbar snap-x">
+        <div className="flex flex-col gap-4">
             {dailyForecast.map((item, index) => (
                 <motion.div
                     key={item.dt}
-                    initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    whileHover={{ y: -10, backgroundColor: "rgba(0, 0, 0, 0.45)" }}
-                    className="glass-card flex-shrink-0 w-40 md:w-52 p-8 flex flex-col items-center justify-between gap-6 snap-center group transition-colors shadow-2xl"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ x: 8 }}
+                    className="bg-white/5 border border-white/5 hover:bg-white/10 transition-all rounded-[32px] p-6 flex items-center justify-between"
                 >
-                    <div className="text-center">
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 block mb-1">
-                            {new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' })}
-                        </span>
-                        <span className="text-[10px] font-black text-white/30 uppercase tracking-tighter">
-                            {new Date(item.dt * 1000).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}
-                        </span>
+                    <div className="flex items-center gap-6">
+                        <div className="flex flex-col">
+                            <span className="text-white font-black text-xl tracking-tight">
+                                {format(new Date(item.dt * 1000), 'EEEE')}
+                            </span>
+                            <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
+                                {format(new Date(item.dt * 1000), 'MMM d')}
+                            </span>
+                        </div>
                     </div>
 
-                    <div className="p-3 bg-white/10 rounded-2xl group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                        <WeatherIcon iconCode={item.weather[0].icon} description={item.weather[0].description} size="small" />
-                    </div>
-
-                    <div className="text-center">
-                        <span className="text-2xl font-black tracking-tight text-white">
-                            {Math.round(item.main.temp)}°
-                        </span>
-                        <p className="text-[10px] font-black uppercase text-white/40 mt-1 truncate w-24">
-                            {item.weather[0].main}
-                        </p>
+                    <div className="flex items-center gap-8">
+                        <div className="flex flex-col items-end gap-1">
+                            <div className="flex items-center gap-4 text-white/40">
+                                <div className="flex items-center gap-1">
+                                    <Droplets size={12} className="text-blue-400 opacity-60" />
+                                    <span className="text-[10px] font-black">{item.main.humidity}%</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <Wind size={12} className="text-emerald-400 opacity-60" />
+                                    <span className="text-[10px] font-black">{Math.round(item.wind.speed)}m/s</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="text-white font-black text-2xl tracking-tighter">
+                                    {Math.round(item.main.temp)}°
+                                </span>
+                                <div className="p-2 bg-white/10 rounded-2xl">
+                                    <WeatherIcon iconCode={item.weather[0].icon} description={item.weather[0].description} size="small" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </motion.div>
-
             ))}
         </div>
     );
 };
 
 export default ForecastList;
-
