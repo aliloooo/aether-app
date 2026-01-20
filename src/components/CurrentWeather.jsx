@@ -62,42 +62,41 @@ const CurrentWeather = ({ data, aqiData, type = 'main' }) => {
     }
 
     return (
-        <div className="flex flex-col items-center text-center gap-2">
+        <div className="flex flex-col items-center text-center">
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 mb-2"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 mb-6"
             >
                 <MapPin size={14} className="text-white/60" />
-                <span className="text-white font-black text-[10px] uppercase tracking-widest">{name}</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">{name}</span>
             </motion.div>
 
-            <div className="relative group">
+            <div className="relative group mb-4">
                 <motion.div
                     animate={{
                         y: [0, -10, 0],
-                        rotate: [0, 2, -2, 0]
                     }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                     className="relative z-10"
                 >
                     <WeatherIcon iconCode={iconCode} description={condition} size="large" />
                 </motion.div>
-                <div className="absolute inset-0 bg-white/20 blur-[100px] rounded-full filter group-hover:bg-white/30 transition-all duration-1000"></div>
+                <div className="absolute inset-0 bg-white/10 blur-[80px] rounded-full"></div>
             </div>
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center mt-[-20px]"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center"
             >
-                <div className="flex items-start">
+                <div className="flex items-start ml-4">
                     <span className="text-[120px] md:text-[160px] font-black leading-none tracking-tighter text-white drop-shadow-2xl">
                         {currentTemp}
                     </span>
                     <span className="text-4xl md:text-6xl font-black text-white/40 mt-6 md:mt-10 tracking-tighter">°</span>
                 </div>
-                <p className="text-lg md:text-xl font-black text-white/50 uppercase tracking-[0.3em] mt-[-10px] md:mt-[-20px]">
+                <p className="text-lg md:text-xl font-black text-white/50 uppercase tracking-[0.4em] mt-[-15px] md:mt-[-25px]">
                     {condition}
                 </p>
             </motion.div>

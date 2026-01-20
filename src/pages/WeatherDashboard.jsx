@@ -172,25 +172,19 @@ const WeatherDashboard = () => {
         <div className="relative min-h-screen w-full flex flex-col font-sans overflow-x-hidden selection:bg-white/20 selection:text-white">
             <BackgroundLayer />
 
-            <div className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-6 pt-10 pb-20 relative z-10">
+            <div className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-6 pt-12 pb-20 relative z-10 gap-10">
                 {/* Minimal Header */}
-                <header className="flex items-center justify-between mb-10">
-                    <div className="flex flex-col">
-                        <h1 className="text-4xl font-black tracking-tighter text-white drop-shadow-xl">Aether</h1>
-                    </div>
-                    <div className="flex gap-4">
-                        <button
-                            onClick={handleDetectLocation}
-                            className="p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10"
-                        >
-                            <MapPin size={18} className="text-white" />
-                        </button>
-                    </div>
+                <header className="flex items-center justify-between">
+                    <h1 className="text-4xl font-black tracking-tighter text-white drop-shadow-xl leading-none">Aether</h1>
+                    <button
+                        onClick={handleDetectLocation}
+                        className="p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10"
+                    >
+                        <MapPin size={18} className="text-white" />
+                    </button>
                 </header>
 
-                <div className="mb-10">
-                    <SearchBar onSearch={setCity} />
-                </div>
+                <SearchBar onSearch={setCity} />
 
                 <AnimatePresence mode="wait">
                     {renderContent()}
