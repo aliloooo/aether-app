@@ -19,18 +19,10 @@ export const fetchWeatherData = async (location) => {
       units: 'metric',
     };
 
-    // 1. Fetch current weather first to get coordinates (important for AQI)
-    const weatherResponse = await axios.get(`${BASE_URL}/weather`, { params: commonParams });
-    const { lat, lon } = weatherResponse.data.coord;
-
-    // 2. Now fetch forecast and AQI using the coordinates for better accuracy/compatibility
-    const [forecastResponse, aqiResponse] = await Promise.all([
-      axios.get(`${BASE_URL}/forecast`, {
-        params: { lat, lon, appid: API_KEY, units: 'metric' }
-      }),
-      axios.get(`${BASE_URL}/air_pollution`, {
-        params: { lat, lon, appid: API_KEY }
-      }),
+    const [weatherResponse, forecastResponse, aqiResponse] = await Promise.all([
+      axios.get(`${BASE_URL}/weather`, { params: commonParams }),
+      axios.get(`${BASE_URL}/forecast`, { params: commonParams }),
+      axios.get(`${BASE_URL}/air_pollution`, { params: commonParams }),
     ]);
 
     return {
@@ -41,6 +33,38 @@ export const fetchWeatherData = async (location) => {
   } catch (error) {
     console.error('API Error:', error);
     throw error;
+  }
+};
+
+/**
+ * Fetch city suggestions from OpenWeatherMap Geo API
+ * @param {string} query - Search string
+ */
+export const fetchCitySuggestions = async (query) => {
+  if (!query || query.length < 3) return [];
+
+  try {
+    const GEO_URL = 'https://api.openweathermap.org/geo/1.0/direct';
+    const response = await axios.get(GEO_URL, {
+      params: {
+        q: query,
+        limit: 5,
+        appid: API_KEY
+      }
+    });
+
+    // Transform to simple format
+    return response.data.map(item => ({
+      name: item.name,
+      state: item.state,
+      country: item.country,
+      lat: item.lat,
+      lon: item.lon,
+      label: `${item.name}, ${item.state ? item.state + ', ' : ''}${item.country}`
+    }));
+  } catch (error) {
+    console.warn('Geo API Error:', error);
+    return [];
   }
 };
 

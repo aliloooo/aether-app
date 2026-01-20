@@ -82,34 +82,44 @@ const WeatherDashboard = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -30 }}
                         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                        className="flex flex-col gap-10 pb-48"
+                        className="flex flex-col gap-8 pb-32 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start"
                     >
-                        <CurrentWeather data={data.current} aqiData={data.aqi} />
+                        {/* Left Column (Desktop) / Top (Mobile) */}
+                        <div className="flex flex-col gap-8 lg:col-span-5 lg:sticky lg:top-8">
+                            <CurrentWeather data={data.current} aqiData={data.aqi} />
 
-                        <div className="flex flex-col gap-6">
-                            <div className="flex items-center justify-between px-2">
-                                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">Hourly Trends</h3>
-                            </div>
-                            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/5 p-6 rounded-[40px]">
+                            <div className="flex flex-col gap-6 lg:hidden">
                                 <WeatherChart data={data.forecast} />
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-6">
-                            <div className="flex items-center justify-between px-4">
-                                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">Metrics</h3>
-                                <button
-                                    onClick={() => addFavorite(data.current.name)}
-                                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400 group transition-all"
-                                >
-                                    <PlusCircle size={14} className="group-hover:rotate-90 transition-transform" />
-                                    Save City
-                                </button>
+                        {/* Right Column (Desktop) / Bottom (Mobile) */}
+                        <div className="flex flex-col gap-8 lg:col-span-7">
+                            <div className="hidden lg:flex flex-col gap-6">
+                                <div className="flex items-center justify-between px-2">
+                                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Hourly Forecast</h3>
+                                </div>
+                                <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/5 p-8 rounded-[40px]">
+                                    <WeatherChart data={data.forecast} />
+                                </div>
                             </div>
-                            <CurrentWeather data={data.current} aqiData={data.aqi} type="stats" />
-                        </div>
 
-                        <WeatherAlerts data={data.current} />
+                            <div className="flex flex-col gap-6">
+                                <div className="flex items-center justify-between px-4">
+                                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Current Details</h3>
+                                    <button
+                                        onClick={() => addFavorite(data.current.name)}
+                                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-300 hover:text-emerald-200 transition-colors"
+                                    >
+                                        <PlusCircle size={14} />
+                                        Save City
+                                    </button>
+                                </div>
+                                <CurrentWeather data={data.current} aqiData={data.aqi} type="stats" />
+                            </div>
+
+                            <WeatherAlerts data={data.current} />
+                        </div>
                     </motion.div>
                 );
             case 'forecast':
@@ -120,7 +130,7 @@ const WeatherDashboard = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -50 }}
                         transition={{ duration: 0.5, ease: "circOut" }}
-                        className="flex flex-col gap-8 pb-48"
+                        className="flex flex-col gap-8 pb-48 lg:max-w-4xl lg:mx-auto lg:w-full"
                     >
                         <div className="flex items-center gap-6 mb-4 px-2">
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/10">
@@ -211,7 +221,7 @@ const WeatherDashboard = () => {
         <div className="relative min-h-screen w-full flex flex-col font-sans overflow-x-hidden selection:bg-white/20 selection:text-white">
             <BackgroundLayer />
 
-            <div className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-6 pt-16 pb-20 relative z-10 gap-10">
+            <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full px-6 pt-10 pb-24 relative z-10 gap-8 lg:px-12">
                 {/* Logo Section */}
                 <header className="flex items-center justify-between px-2">
                     <h1 className="text-3xl font-black tracking-tighter text-white/30 uppercase tracking-[0.3em] leading-none">Aether</h1>

@@ -11,9 +11,17 @@ const useWeatherStore = create(
             favorites: ['Jakarta', 'London', 'Tokyo'],
             recentSearches: [],
 
-            setCity: (city) => set((state) => {
-                const newRecent = [city, ...state.recentSearches.filter(c => c !== city)].slice(0, 5);
-                return { city, coords: null, recentSearches: newRecent };
+            setCity: (input) => set((state) => {
+                let cityName = input;
+                let newCoords = null;
+
+                if (typeof input === 'object' && input !== null) {
+                    cityName = input.name;
+                    newCoords = { lat: input.lat, lon: input.lon };
+                }
+
+                const newRecent = [cityName, ...state.recentSearches.filter(c => c !== cityName)].slice(0, 5);
+                return { city: cityName, coords: newCoords, recentSearches: newRecent };
             }),
             setCoords: (coords) => set({ coords, city: null }),
             setUnit: (unit) => set({ unit }),

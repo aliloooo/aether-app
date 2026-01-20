@@ -23,7 +23,26 @@ const WeatherVisuals = ({ themeMode }) => {
                         </motion.div>
                     </div>
                 );
+            case 'ClearNight':
+                return (
+                    <div className="relative w-full h-full flex items-center justify-center">
+                        <motion.div
+                            animate={{
+                                scale: [1, 1.05, 1],
+                                rotate: [0, 5, -5, 0]
+                            }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            className="text-blue-100 opacity-20"
+                        >
+                            <div className="w-[300px] h-[300px] rounded-full bg-blue-100 blur-3xl opacity-30 absolute"></div>
+                            <svg width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                            </svg>
+                        </motion.div>
+                    </div>
+                );
             case 'Clouds':
+            case 'CloudsNight':
                 return (
                     <div className="relative w-full h-full">
                         <motion.div
@@ -43,6 +62,7 @@ const WeatherVisuals = ({ themeMode }) => {
                     </div>
                 );
             case 'Rain':
+            case 'RainNight':
             case 'Drizzle':
                 return (
                     <div className="relative w-full h-full flex items-center justify-center">

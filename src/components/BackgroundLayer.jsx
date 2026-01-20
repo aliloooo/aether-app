@@ -8,6 +8,9 @@ const BackgroundLayer = () => {
     const [init, setInit] = useState(false);
     const themeMode = useWeatherStore((state) => state.themeMode);
 
+    // Guard clause in case themeMode is not yet an object (initial load)
+    const currentTheme = typeof themeMode === 'string' ? { id: 'Default', gradient: 'bg-gradient-to-br from-[#1e3c72] to-[#2a5298]' } : themeMode;
+
     useEffect(() => {
         initParticlesEngine(async (engine) => {
             await loadSlim(engine);
@@ -15,21 +18,6 @@ const BackgroundLayer = () => {
             setInit(true);
         });
     }, []);
-
-    // Theme-based accent colors for mesh gradient
-    const themeAccents = useMemo(() => {
-        const accents = {
-            Clear: 'hsla(190, 80%, 30%, 0.3)',
-            Clouds: 'hsla(210, 40%, 40%, 0.2)',
-            Rain: 'hsla(220, 60%, 20%, 0.3)',
-            Snow: 'hsla(180, 20%, 60%, 0.2)',
-            Mist: 'hsla(0, 0%, 50%, 0.2)',
-            Thunderstorm: 'hsla(280, 70%, 20%, 0.3)',
-            Default: 'hsla(230, 60%, 15%, 0.3)'
-        };
-        const key = themeMode.replace('Night', '');
-        return accents[key] || accents.Default;
-    }, [themeMode]);
 
     const particlesConfig = useMemo(() => {
         const baseConfig = {
@@ -44,70 +32,76 @@ const BackgroundLayer = () => {
             }
         };
 
-        if (['Rain', 'Drizzle', 'Thunderstorm'].includes(themeMode)) {
+        const id = currentTheme.id || 'Default';
+
+        if (['Rain', 'RainNight', 'Drizzle', 'Thunderstorm'].includes(id)) {
             return {
                 ...baseConfig,
                 particles: {
                     ...baseConfig.particles,
-                    number: { value: 200 },
+                    number: { value: 150 },
                     color: { value: "#ffffff" },
                     shape: { type: "line" },
-                    size: { value: { min: 0.1, max: 0.4 } },
-                    move: { enable: true, speed: 25, direction: "bottom", straight: true }
+                    size: { value: { min: 0.1, max: 0.5 } },
+                    move: { enable: true, speed: 20, direction: "bottom", straight: true }
                 }
             };
         }
 
-        if (themeMode.includes('Snow')) {
+        if (id.includes('Snow')) {
             return {
                 ...baseConfig,
                 particles: {
                     ...baseConfig.particles,
-                    number: { value: 120 },
+                    number: { value: 100 },
                     color: { value: "#ffffff" },
                     shape: { type: "circle" },
-                    size: { value: { min: 1, max: 2.5 } },
-                    move: { enable: true, speed: 1.5, direction: "bottom", straight: false, random: true, outModes: "out" }
+                    size: { value: { min: 1, max: 3 } },
+                    move: { enable: true, speed: 2, direction: "bottom", straight: false, random: true, outModes: "out" }
                 }
             };
         }
 
+        if (id.includes('Clouds')) {
+            return {
+                ...baseConfig,
+                particles: {
+                    ...baseConfig.particles,
+                    number: { value: 30 },
+                    color: { value: "#ffffff" },
+                    size: { value: { min: 1, max: 3 } },
+                    move: { enable: true, speed: 0.5, direction: "right", random: true, straight: false }
+                }
+            };
+        }
+
+        // Clear/Default - subtle floating particles
         return {
             ...baseConfig,
             particles: {
                 ...baseConfig.particles,
-                number: { value: 50 },
+                number: { value: 40 },
                 color: { value: "#ffffff" },
-                size: { value: { min: 0.5, max: 1.2 } },
-                move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "out" }
+                size: { value: { min: 0.5, max: 1.5 } },
+                move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: "out" }
             }
         };
-    }, [themeMode]);
+    }, [currentTheme.id]);
 
     return (
-        <div
-            className="absolute inset-0 -z-10 transition-colors duration-1000 bg-[#080a0f]"
-            style={{
-                backgroundImage: `
-                    radial-gradient(at 0% 0%, ${themeAccents} 0, transparent 50%),
-                    radial-gradient(at 100% 0%, ${themeAccents} 0, transparent 50%),
-                    radial-gradient(at 50% 100%, hsla(240, 50%, 10%, 0.5) 0, transparent 80%)
-                `
-            }}
-        >
-            <WeatherVisuals themeMode={themeMode} />
-            <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] z-0"></div>
+        <div className={`fixed inset-0 -z-10 transition-all duration-1000 ${currentTheme.gradient || 'bg-slate-900'}`}>
+            <WeatherVisuals themeMode={currentTheme.id} />
+            {/* Gradient Overlay for Depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/40 pointer-events-none"></div>
 
             {init && (
                 <Particles
                     id="tsparticles"
                     options={particlesConfig}
                     className="absolute inset-0 h-full w-full pointer-events-none"
+                    key={currentTheme.id} // Re-render particles on theme change
                 />
             )}
-
-            {/* Soft Ambient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 pointer-events-none"></div>
         </div>
     );
 };
