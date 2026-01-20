@@ -29,22 +29,22 @@ const WeatherDashboard = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-6xl z-10 flex flex-col gap-10 md:gap-16"
+                className="w-full max-w-7xl z-10 flex flex-col gap-12 md:gap-20"
             >
                 {/* Header Section */}
-                <header className="flex flex-col md:flex-row justify-between items-center gap-8">
+                <header className="flex flex-col md:flex-row justify-between items-center md:items-end gap-10">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         className="text-center md:text-left"
                     >
-                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient mb-2 drop-shadow-2xl">Aether</h1>
-                        <p className="text-[10px] md:text-xs font-black text-white/40 uppercase tracking-[0.5em]">
+                        <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-gradient mb-2 drop-shadow-2xl">Aether</h1>
+                        <p className="text-[10px] md:text-xs font-black text-white/40 uppercase tracking-[0.5em] ml-1">
                             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                         </p>
                     </motion.div>
 
-                    <div className="w-full max-w-md">
+                    <div className="w-full max-w-lg">
                         <SearchBar onSearch={setCity} />
                     </div>
                 </header>
@@ -57,9 +57,9 @@ const WeatherDashboard = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="flex items-center justify-center p-24"
+                                className="flex items-center justify-center p-32"
                             >
-                                <div className="h-20 w-20 border-8 border-white/5 border-t-white rounded-full animate-spin"></div>
+                                <div className="h-24 w-24 border-8 border-white/5 border-t-white rounded-full animate-spin shadow-2xl"></div>
                             </motion.div>
                         ) : error ? (
                             <motion.div
@@ -67,13 +67,13 @@ const WeatherDashboard = () => {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="flex flex-col items-center justify-center text-center p-16 glass-panel"
+                                className="flex flex-col items-center justify-center text-center p-20 glass-panel max-w-2xl mx-auto"
                             >
-                                <span className="text-red-400 text-3xl font-black mb-4 tracking-tighter">LOCATION NOT FOUND</span>
+                                <span className="text-red-400 text-3xl font-black mb-4 tracking-tighter drop-shadow-lg">LOCATION NOT FOUND</span>
                                 <p className="text-white/60 font-bold max-w-xs leading-relaxed">We couldn't find "{city}". Please check the spelling or explore a different city.</p>
                                 <button
                                     onClick={() => setCity('Jakarta')}
-                                    className="mt-10 px-10 py-4 bg-white/10 hover:bg-white/20 rounded-2xl transition-all text-[11px] font-black uppercase tracking-[0.3em] border border-white/10 shadow-2xl active:scale-95"
+                                    className="mt-12 px-12 py-5 bg-white/10 hover:bg-white/20 rounded-2xl transition-all text-[11px] font-black uppercase tracking-[0.3em] border border-white/10 shadow-2xl active:scale-95"
                                 >
                                     RETURN TO JAKARTA
                                 </button>
@@ -85,20 +85,20 @@ const WeatherDashboard = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 1.02 }}
                                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="flex flex-col gap-12 md:gap-20"
+                                className="flex flex-col gap-16 md:gap-24"
                             >
-                                {/* Content Grid */}
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-14 items-start">
-                                    <div className="lg:col-span-7 flex flex-col gap-10">
+                                {/* Content Grid - Symmetric 1:1 on Desktop */}
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-center">
+                                    <div className="flex flex-col gap-10 md:gap-14">
                                         <CurrentWeather data={data.current} type="main" />
                                         <WeatherAlerts data={data.current} />
                                     </div>
 
-                                    <div className="lg:col-span-5">
+                                    <div className="w-full">
                                         <div className="glass-panel flex flex-col shadow-2xl">
                                             <div className="flex items-center gap-4 mb-10">
-                                                <div className="w-2 h-5 bg-white/20 rounded-full"></div>
-                                                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/40">Current Metrics</h3>
+                                                <div className="w-2.5 h-6 bg-white/30 rounded-full"></div>
+                                                <h3 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Current Metrics</h3>
                                             </div>
                                             <CurrentWeather data={data.current} type="stats" />
                                         </div>
@@ -106,8 +106,8 @@ const WeatherDashboard = () => {
                                 </div>
 
                                 <section className="w-full">
-                                    <div className="flex items-center gap-6 mb-10">
-                                        <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/40 whitespace-nowrap">EXTENDED FORECAST</h3>
+                                    <div className="flex items-center gap-8 mb-12">
+                                        <h3 className="text-[12px] font-black uppercase tracking-[0.4em] text-white/40 whitespace-nowrap">EXTENDED FORECAST</h3>
                                         <div className="h-[1px] flex-1 bg-white/10"></div>
                                     </div>
                                     <ForecastList forecast={data.forecast} />
@@ -119,6 +119,7 @@ const WeatherDashboard = () => {
                     </AnimatePresence>
                 </main>
             </motion.div>
+
         </div>
     );
 };

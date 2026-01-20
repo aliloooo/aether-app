@@ -100,18 +100,19 @@ const CurrentWeather = ({ data, type = 'all' }) => {
 const StatCard = ({ icon, label, value, variants }) => (
     <motion.div
         variants={variants}
-        whileHover={{ y: -5, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
-        className="glass-card p-6 flex flex-col gap-4 group transition-all"
+        whileHover={{ y: -8, backgroundColor: "rgba(0, 0, 0, 0.45)" }}
+        className="glass-card p-8 flex flex-col gap-6 group transition-all"
     >
-        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+        <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
             {icon}
         </div>
         <div>
-            <span className="text-[10px] uppercase font-black tracking-[0.2em] text-white/40 block mb-1">{label}</span>
-            <span className="text-xl font-black tracking-tight text-white">{value}</span>
+            <span className="text-[11px] uppercase font-black tracking-[0.3em] text-white/30 block mb-2">{label}</span>
+            <span className="text-2xl font-black tracking-tight text-white">{value}</span>
         </div>
     </motion.div>
 );
+
 
 
 export default CurrentWeather;

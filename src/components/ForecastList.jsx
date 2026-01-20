@@ -16,8 +16,8 @@ const ForecastList = ({ forecast }) => {
                     initial={{ opacity: 0, scale: 0.9, x: 20 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    whileHover={{ y: -10, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
-                    className="glass-card flex-shrink-0 w-36 md:w-44 p-6 flex flex-col items-center justify-between gap-4 snap-center group transition-colors shadow-2xl"
+                    whileHover={{ y: -10, backgroundColor: "rgba(0, 0, 0, 0.45)" }}
+                    className="glass-card flex-shrink-0 w-40 md:w-52 p-8 flex flex-col items-center justify-between gap-6 snap-center group transition-colors shadow-2xl"
                 >
                     <div className="text-center">
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 block mb-1">
