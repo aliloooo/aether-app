@@ -1,14 +1,16 @@
-import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import WeatherDashboard from './pages/WeatherDashboard';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <WeatherDashboard />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <WeatherDashboard />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 

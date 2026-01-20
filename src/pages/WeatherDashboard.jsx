@@ -43,11 +43,17 @@ const WeatherDashboard = () => {
     };
 
     const LoadingSkeleton = () => (
-        <div className="flex-1 flex flex-col items-center justify-center gap-8 py-20 animate-pulse">
-            <div className="w-48 h-10 bg-white/5 rounded-full"></div>
-            <div className="w-56 h-56 bg-white/5 rounded-full"></div>
-            <div className="w-64 h-24 bg-white/5 rounded-[40px]"></div>
-        </div>
+        <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1 flex flex-col items-center justify-center gap-8 py-20"
+        >
+            <div className="w-48 h-10 bg-white/10 rounded-full animate-pulse"></div>
+            <div className="w-56 h-56 bg-white/10 rounded-full animate-pulse"></div>
+            <div className="w-64 h-24 bg-white/10 rounded-[40px] animate-pulse"></div>
+        </motion.div>
     );
 
     const renderContent = () => {
@@ -55,21 +61,27 @@ const WeatherDashboard = () => {
 
         if (error || !data) {
             return (
-                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center gap-6">
-                    <div className="p-8 bg-white/5 rounded-[40px] border border-white/10 backdrop-blur-3xl">
-                        <AlertCircle size={64} className="text-white/20 mb-6 mx-auto" />
+                <motion.div
+                    key="error"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex-1 flex flex-col items-center justify-center p-8 text-center gap-6"
+                >
+                    <div className="p-8 bg-glass-bg rounded-[40px] border border-glass-border backdrop-blur-3xl shadow-2xl">
+                        <AlertCircle size={64} className="text-red-400 mb-6 mx-auto" />
                         <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">NOT FOUND</h2>
-                        <p className="text-white/40 font-bold mb-8 max-w-xs uppercase tracking-[0.2em] text-[10px] leading-relaxed">
-                            The location you searched for vanished into the ether.
+                        <p className="text-white/60 font-bold mb-8 max-w-xs uppercase tracking-[0.2em] text-[10px] leading-relaxed">
+                            {error ? "Unable to connect to weather services." : "The location you searched for vanished into the ether."}
                         </p>
                         <button
-                            onClick={() => setCity('Jakarta')}
-                            className="w-full bg-white text-black font-black py-5 rounded-3xl uppercase tracking-[0.2em] text-[10px] hover:scale-105 transition-all shadow-xl"
+                            onClick={() => window.location.reload()}
+                            className="bg-white text-black font-black py-4 px-8 rounded-2xl uppercase tracking-[0.2em] text-[10px] hover:scale-105 transition-all shadow-xl"
                         >
-                            Reset to Jakarta
+                            Retry Connection
                         </button>
                     </div>
-                </div>
+                </motion.div>
             );
         }
 
