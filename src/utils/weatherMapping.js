@@ -18,12 +18,13 @@ export const getWeatherTheme = (weatherCode) => {
 };
 
 export const bgGradients = {
-    Clear: 'bg-gradient-to-br from-blue-400 to-blue-600',
-    Clouds: 'bg-gradient-to-br from-slate-400 to-slate-600',
-    Rain: 'bg-gradient-to-br from-slate-700 to-slate-900',
-    Drizzle: 'bg-gradient-to-br from-cyan-600 to-blue-800',
-    Thunderstorm: 'bg-gradient-to-br from-gray-900 to-black',
-    Snow: 'bg-gradient-to-br from-blue-100 to-slate-300',
-    Mist: 'bg-gradient-to-br from-zinc-400 to-stone-500',
-    Default: 'bg-gradient-to-br from-slate-800 to-blue-900'
+    Clear: 'bg-gradient-to-br from-[#4facfe] to-[#00f2fe]',
+    Clouds: 'bg-gradient-to-br from-[#89f7fe] to-[#66a6ff]',
+    Rain: 'bg-gradient-to-br from-[#30cfd0] to-[#330867]',
+    Drizzle: 'bg-gradient-to-br from-[#4facfe] to-[#00f2fe]',
+    Thunderstorm: 'bg-gradient-to-br from-[#1e3c72] to-[#2a5298]',
+    Snow: 'bg-gradient-to-br from-[#a1c4fd] to-[#c2e9fb]',
+    Mist: 'bg-gradient-to-br from-[#6a11cb] to-[#2575fc]',
+    Default: 'bg-gradient-to-br from-[#1e3c72] to-[#2a5298]'
 };
+

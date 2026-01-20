@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const SearchBar = ({ onSearch }) => {
     const [city, setCity] = useState('');
@@ -14,20 +15,30 @@ const SearchBar = ({ onSearch }) => {
 
     return (
         <form onSubmit={handleSubmit} className="relative w-full">
-            <div className="relative flex items-center group">
+            <motion.div
+                whileHover={{ scale: 1.01 }}
+                className="relative flex items-center group"
+            >
+                <div className="absolute left-5 text-white/30 group-focus-within:text-white/60 transition-colors">
+                    <Search size={18} />
+                </div>
                 <input
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Search City..."
-                    className="w-full py-3 h-12 pl-5 pr-12 bg-white/5 border border-white/10 rounded-full text-white placeholder-white/30 outline-none backdrop-blur-sm transition-all focus:bg-white/10 focus:border-white/20 text-base font-light tracking-wide"
+                    placeholder="Search for a city..."
+                    className="w-full py-4 h-14 pl-12 pr-6 bg-white/[0.03] border border-white/10 rounded-2xl text-white placeholder-white/20 outline-none backdrop-blur-xl transition-all focus:bg-white/[0.08] focus:border-white/30 text-sm font-bold uppercase tracking-widest shadow-2xl"
                 />
-                <button type="submit" className="absolute right-1 top-1 bottom-1 w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-all active:scale-95">
-                    <Search size={20} />
+                <button
+                    type="submit"
+                    className="absolute right-3 top-3 bottom-3 px-4 flex items-center justify-center rounded-xl bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all active:scale-95 text-[10px] font-black uppercase tracking-tighter"
+                >
+                    ENTER
                 </button>
-            </div>
+            </motion.div>
         </form>
     );
 };
 
 export default SearchBar;
+

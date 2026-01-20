@@ -3,6 +3,7 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from "@tsparticles/slim";
 import useWeatherStore from '../store/weatherStore';
 import { bgGradients } from '../utils/weatherMapping';
+import WeatherVisuals from './WeatherVisuals';
 
 const BackgroundLayer = () => {
     const [init, setInit] = useState(false);
@@ -21,20 +22,24 @@ const BackgroundLayer = () => {
             fullScreen: { enable: false, zIndex: 0 },
             background: { color: { value: "transparent" } },
             fpsLimit: 120,
-            interactivity: { events: { onClick: { enable: true, mode: "push" } }, modes: { push: { quantity: 4 } } },
-            particles: { move: { enable: true }, number: { density: { enable: true } }, opacity: { value: 0.5 } }
+            interactivity: { events: { onHover: { enable: true, mode: "bubble" } } },
+            particles: {
+                move: { enable: true },
+                number: { density: { enable: true, area: 800 } },
+                opacity: { value: 0.3 }
+            }
         };
 
-        if (themeMode === 'Rain' || themeMode === 'Drizzle' || themeMode === 'Thunderstorm') {
+        if (['Rain', 'Drizzle', 'Thunderstorm'].includes(themeMode)) {
             return {
                 ...baseConfig,
                 particles: {
                     ...baseConfig.particles,
-                    number: { value: 100 },
+                    number: { value: 150 },
                     color: { value: "#ffffff" },
-                    shape: { type: "line" }, // Simulating rain drops roughly
+                    shape: { type: "line" },
                     size: { value: { min: 0.1, max: 0.5 } },
-                    move: { enable: true, speed: 15, direction: "bottom", straight: true }
+                    move: { enable: true, speed: 20, direction: "bottom", straight: true }
                 }
             };
         }
@@ -44,35 +49,36 @@ const BackgroundLayer = () => {
                 ...baseConfig,
                 particles: {
                     ...baseConfig.particles,
-                    number: { value: 50 },
+                    number: { value: 100 },
                     color: { value: "#ffffff" },
                     shape: { type: "circle" },
-                    move: { enable: true, speed: 2, direction: "bottom", straight: false, random: true }
+                    size: { value: { min: 1, max: 3 } },
+                    move: { enable: true, speed: 2, direction: "bottom", straight: false, random: true, outModes: "out" }
                 }
             };
         }
 
-        // Default subtle particles for Clear/Clouds
         return {
             ...baseConfig,
             particles: {
                 ...baseConfig.particles,
-                number: { value: 30 },
+                number: { value: 40 },
                 color: { value: "#ffffff" },
-                size: { value: { min: 1, max: 3 } },
-                move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "out" }
+                size: { value: { min: 1, max: 2 } },
+                move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: "out" }
             }
-        }
-
+        };
     }, [themeMode]);
 
     return (
         <div className={`absolute inset-0 -z-10 transition-all duration-1000 ${bgGradients[themeMode] || bgGradients.Default}`}>
+            <WeatherVisuals themeMode={themeMode} />
+            <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]"></div>
             {init && (
                 <Particles
                     id="tsparticles"
                     options={particlesConfig}
-                    className="absolute inset-0 h-full w-full"
+                    className="absolute inset-0 h-full w-full pointer-events-none"
                 />
             )}
         </div>
