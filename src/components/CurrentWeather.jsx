@@ -38,18 +38,20 @@ const CurrentWeather = ({ data, type = 'all' }) => {
                     <span className="text-sm font-semibold tracking-wider uppercase">{name}, {sys.country}</span>
                 </motion.div>
 
-                <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-bold tracking-tighter mb-4 text-white">
-                    {Math.round(main.temp)}<span className="text-white/30">°</span>
+                <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-black tracking-tighter mb-4 text-white drop-shadow-2xl">
+                    {Math.round(main.temp)}<span className="text-white/40">°</span>
                 </motion.h2>
+
 
                 <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
                     <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-xl border border-white/10">
                         <WeatherIcon iconCode={weather[0].icon} description={weather[0].description} size="large" />
                     </div>
                     <div>
-                        <p className="text-2xl md:text-3xl font-medium capitalize text-white/90">{weather[0].description}</p>
-                        <p className="text-sm opacity-50 font-medium">Feels like {Math.round(main.feels_like)}°</p>
+                        <p className="text-2xl md:text-3xl font-bold capitalize text-white mb-1 leading-tight">{weather[0].description}</p>
+                        <p className="text-sm font-bold text-white/60 tracking-wide">Feels like {Math.round(main.feels_like)}°</p>
                     </div>
+
                 </motion.div>
             </motion.div>
         );
@@ -98,18 +100,19 @@ const CurrentWeather = ({ data, type = 'all' }) => {
 const StatCard = ({ icon, label, value, variants }) => (
     <motion.div
         variants={variants}
-        whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
-        className="glass-card p-5 flex flex-col gap-3 group transition-all"
+        whileHover={{ y: -5, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+        className="glass-card p-6 flex flex-col gap-4 group transition-all"
     >
-        <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
             {icon}
         </div>
         <div>
-            <span className="text-sm uppercase tracking-widest opacity-40 font-bold block mb-1">{label}</span>
-            <span className="text-xl font-bold tracking-tight">{value}</span>
+            <span className="text-[10px] uppercase font-black tracking-[0.2em] text-white/40 block mb-1">{label}</span>
+            <span className="text-xl font-black tracking-tight text-white">{value}</span>
         </div>
     </motion.div>
 );
+
 
 export default CurrentWeather;
 

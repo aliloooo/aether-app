@@ -27,14 +27,15 @@ const SearchBar = ({ onSearch }) => {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="Search for a city..."
-                    className="w-full py-4 h-14 pl-12 pr-6 bg-white/[0.03] border border-white/10 rounded-2xl text-white placeholder-white/20 outline-none backdrop-blur-xl transition-all focus:bg-white/[0.08] focus:border-white/30 text-sm font-bold uppercase tracking-widest shadow-2xl"
+                    className="w-full py-4 h-14 pl-12 pr-6 bg-black/40 border border-white/20 rounded-2xl text-white placeholder-white/40 outline-none backdrop-blur-xl transition-all focus:bg-black/60 focus:border-white/40 text-sm font-bold uppercase tracking-widest shadow-2xl"
                 />
                 <button
                     type="submit"
-                    className="absolute right-3 top-3 bottom-3 px-4 flex items-center justify-center rounded-xl bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all active:scale-95 text-[10px] font-black uppercase tracking-tighter"
+                    className="absolute right-3 top-3 bottom-3 px-4 flex items-center justify-center rounded-xl bg-white/20 text-white hover:text-white hover:bg-white/30 transition-all active:scale-95 text-[10px] font-black uppercase tracking-tighter"
                 >
                     ENTER
                 </button>
+
             </motion.div>
         </form>
     );

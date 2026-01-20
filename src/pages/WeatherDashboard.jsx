@@ -29,17 +29,17 @@ const WeatherDashboard = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-6xl z-10 flex flex-col gap-8 md:gap-12"
+                className="w-full max-w-6xl z-10 flex flex-col gap-10 md:gap-16"
             >
                 {/* Header Section */}
-                <header className="flex flex-col md:flex-row justify-between items-center gap-6">
+                <header className="flex flex-col md:flex-row justify-between items-center gap-8">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         className="text-center md:text-left"
                     >
-                        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-gradient mb-1">Aether</h1>
-                        <p className="text-xs font-bold opacity-40 uppercase tracking-[0.4em]">
+                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient mb-2 drop-shadow-2xl">Aether</h1>
+                        <p className="text-[10px] md:text-xs font-black text-white/40 uppercase tracking-[0.5em]">
                             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                         </p>
                     </motion.div>
@@ -49,7 +49,7 @@ const WeatherDashboard = () => {
                     </div>
                 </header>
 
-                <main className="relative min-h-[60vh] flex flex-col">
+                <main className="relative w-full flex flex-col">
                     <AnimatePresence mode="wait">
                         {isLoading ? (
                             <motion.div
@@ -57,9 +57,9 @@ const WeatherDashboard = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="absolute inset-0 flex items-center justify-center p-20"
+                                className="flex items-center justify-center p-24"
                             >
-                                <div className="h-16 w-16 border-4 border-white/10 border-t-white rounded-full animate-spin"></div>
+                                <div className="h-20 w-20 border-8 border-white/5 border-t-white rounded-full animate-spin"></div>
                             </motion.div>
                         ) : error ? (
                             <motion.div
@@ -67,50 +67,47 @@ const WeatherDashboard = () => {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="flex flex-col items-center justify-center text-center p-12 glass-panel"
+                                className="flex flex-col items-center justify-center text-center p-16 glass-panel"
                             >
-                                <span className="text-red-400 text-2xl font-semibold mb-2">Location Not Found</span>
-                                <p className="opacity-70 max-w-xs">We couldn't find "{city}". Please check the spelling or try a different city.</p>
+                                <span className="text-red-400 text-3xl font-black mb-4 tracking-tighter">LOCATION NOT FOUND</span>
+                                <p className="text-white/60 font-bold max-w-xs leading-relaxed">We couldn't find "{city}". Please check the spelling or explore a different city.</p>
                                 <button
                                     onClick={() => setCity('Jakarta')}
-                                    className="mt-6 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all text-sm font-bold uppercase tracking-widest border border-white/5"
+                                    className="mt-10 px-10 py-4 bg-white/10 hover:bg-white/20 rounded-2xl transition-all text-[11px] font-black uppercase tracking-[0.3em] border border-white/10 shadow-2xl active:scale-95"
                                 >
-                                    Return to Jakarta
+                                    RETURN TO JAKARTA
                                 </button>
                             </motion.div>
                         ) : data && (
                             <motion.div
                                 key={data.current.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="flex flex-col gap-12"
+                                initial={{ opacity: 0, scale: 0.98 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.02 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                className="flex flex-col gap-12 md:gap-20"
                             >
-                                {/* Main Layout Grid */}
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-                                    {/* Current Weather - Hero Area */}
-                                    <div className="lg:col-span-7 flex flex-col gap-8">
+                                {/* Content Grid */}
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-14 items-start">
+                                    <div className="lg:col-span-7 flex flex-col gap-10">
                                         <CurrentWeather data={data.current} type="main" />
                                         <WeatherAlerts data={data.current} />
                                     </div>
 
-                                    {/* Quick Stats Area */}
                                     <div className="lg:col-span-5">
-                                        <div className="glass-panel h-full flex flex-col">
-                                            <div className="flex items-center gap-3 mb-8">
-                                                <div className="w-1.5 h-4 bg-white/20 rounded-full"></div>
-                                                <h3 className="text-xs font-black uppercase tracking-[0.2em] opacity-30">Current Details</h3>
+                                        <div className="glass-panel flex flex-col shadow-2xl">
+                                            <div className="flex items-center gap-4 mb-10">
+                                                <div className="w-2 h-5 bg-white/20 rounded-full"></div>
+                                                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/40">Current Metrics</h3>
                                             </div>
                                             <CurrentWeather data={data.current} type="stats" />
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Forecast Section */}
                                 <section className="w-full">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <h3 className="text-xs font-black uppercase tracking-[0.2em] opacity-30 whitespace-nowrap">Extended Forecast</h3>
+                                    <div className="flex items-center gap-6 mb-10">
+                                        <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/40 whitespace-nowrap">EXTENDED FORECAST</h3>
                                         <div className="h-[1px] flex-1 bg-white/10"></div>
                                     </div>
                                     <ForecastList forecast={data.forecast} />
@@ -125,6 +122,7 @@ const WeatherDashboard = () => {
         </div>
     );
 };
+
 
 export default WeatherDashboard;
 

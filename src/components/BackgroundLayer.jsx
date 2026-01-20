@@ -73,7 +73,8 @@ const BackgroundLayer = () => {
     return (
         <div className={`absolute inset-0 -z-10 transition-all duration-1000 ${bgGradients[themeMode] || bgGradients.Default}`}>
             <WeatherVisuals themeMode={themeMode} />
-            <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]"></div>
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] z-0"></div>
+
             {init && (
                 <Particles
                     id="tsparticles"

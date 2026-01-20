@@ -42,19 +42,20 @@ const WeatherAlerts = ({ data }) => {
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className={`flex items-start gap-4 p-4 rounded-2xl border ${alert.type === 'warning'
-                            ? 'bg-orange-500/10 border-orange-500/20 text-orange-200'
-                            : 'bg-blue-500/10 border-blue-500/20 text-blue-200'
+                    className={`flex items-start gap-4 p-5 rounded-2xl border backdrop-blur-md ${alert.type === 'warning'
+                        ? 'bg-orange-500/20 border-orange-500/40 text-orange-50'
+                        : 'bg-blue-600/20 border-blue-500/40 text-blue-50'
                         }`}
                 >
-                    <div className={`p-2 rounded-xl ${alert.type === 'warning' ? 'bg-orange-500/20' : 'bg-blue-500/20'}`}>
-                        {alert.type === 'warning' ? <AlertTriangle size={18} /> : <Info size={18} />}
+                    <div className={`p-2.5 rounded-xl shadow-inner ${alert.type === 'warning' ? 'bg-orange-500/30' : 'bg-blue-500/30'}`}>
+                        {alert.type === 'warning' ? <AlertTriangle size={20} className="text-orange-200" /> : <Info size={20} className="text-blue-200" />}
                     </div>
                     <div>
-                        <h4 className="font-bold text-sm uppercase tracking-wider">{alert.title}</h4>
-                        <p className="text-xs opacity-70 mt-0.5">{alert.description}</p>
+                        <h4 className="font-black text-[11px] uppercase tracking-[0.2em] mb-1">{alert.title}</h4>
+                        <p className="text-xs font-bold opacity-80 leading-relaxed">{alert.description}</p>
                     </div>
                 </motion.div>
+
             ))}
         </div>
     );
