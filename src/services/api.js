@@ -19,10 +19,18 @@ export const fetchWeatherData = async (location) => {
       units: 'metric',
     };
 
-    const [weatherResponse, forecastResponse, aqiResponse] = await Promise.all([
-      axios.get(`${BASE_URL}/weather`, { params: commonParams }),
-      axios.get(`${BASE_URL}/forecast`, { params: commonParams }),
-      axios.get(`${BASE_URL}/air_pollution`, { params: commonParams }),
+    // 1. Fetch current weather first to get coordinates (important if using city name)
+    const weatherResponse = await axios.get(`${BASE_URL}/weather`, { params: commonParams });
+    const { lat, lon } = weatherResponse.data.coord;
+
+    // 2. Fetch forecast and AQI using the exact coordinates
+    const [forecastResponse, aqiResponse] = await Promise.all([
+      axios.get(`${BASE_URL}/forecast`, {
+        params: { lat, lon, appid: API_KEY, units: 'metric' }
+      }),
+      axios.get(`${BASE_URL}/air_pollution`, {
+        params: { lat, lon, appid: API_KEY }
+      }),
     ]);
 
     return {
