@@ -82,7 +82,7 @@ const WeatherDashboard = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col gap-8 pb-32"
+                        className="flex flex-col gap-8 pb-48"
                     >
                         <CurrentWeather data={data.current} aqiData={data.aqi} />
                         <WeatherChart data={data.forecast} />
@@ -106,7 +106,7 @@ const WeatherDashboard = () => {
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex flex-col gap-6 pb-32"
+                        className="flex flex-col gap-6 pb-48"
                     >
                         <div className="flex items-center gap-4 mb-4">
                             <Calendar size={24} className="text-white/60" />
@@ -120,7 +120,7 @@ const WeatherDashboard = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex flex-col gap-6 pb-32"
+                        className="flex flex-col gap-6 pb-48"
                     >
                         <div className="flex items-center gap-4 mb-4">
                             <Bookmark size={24} className="text-white/60" />
