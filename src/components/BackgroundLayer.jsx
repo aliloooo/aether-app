@@ -3,10 +3,12 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from "@tsparticles/slim";
 import useWeatherStore from '../store/weatherStore';
 import WeatherVisuals from './WeatherVisuals';
+import WeatherAnimations from './WeatherAnimations';
 
-const BackgroundLayer = () => {
+const BackgroundLayer = ({ weatherCondition, isDay }) => {
     const [init, setInit] = useState(false);
     const themeMode = useWeatherStore((state) => state.themeMode);
+    const isDarkMode = useWeatherStore((state) => state.isDarkMode);
 
     // Guard clause in case themeMode is not yet an object (initial load)
     const currentTheme = typeof themeMode === 'string' ? { id: 'Default', gradient: 'bg-gradient-to-br from-[#1e3c72] to-[#2a5298]' } : themeMode;
@@ -88,11 +90,29 @@ const BackgroundLayer = () => {
         };
     }, [currentTheme.id]);
 
+    // Get gradient based on theme mode
+    const getBackgroundGradient = () => {
+        if (isDarkMode) {
+            return currentTheme.gradient || 'bg-gradient-to-br from-[#0a0e1a] via-[#1e3c72] to-[#0a0e1a]';
+        } else {
+            return 'bg-gradient-to-br from-[#e0f2fe] via-[#bae6fd] to-[#7dd3fc]';
+        }
+    };
+
     return (
-        <div className={`fixed inset-0 -z-10 transition-all duration-1000 ${currentTheme.gradient || 'bg-slate-900'}`}>
+        <div className={`fixed inset-0 -z-10 transition-all duration-1000 ${getBackgroundGradient()}`}>
             <WeatherVisuals themeMode={currentTheme.id} />
+
+            {/* Weather Animations */}
+            <WeatherAnimations weatherCondition={weatherCondition} isDay={isDay} />
+
             {/* Gradient Overlay for Depth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/40 pointer-events-none"></div>
+            <div className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 
+                            ${isDarkMode
+                    ? 'bg-gradient-to-b from-black/0 via-black/10 to-black/40'
+                    : 'bg-gradient-to-b from-white/0 via-white/5 to-white/20'
+                }`}>
+            </div>
 
             {init && (
                 <Particles
